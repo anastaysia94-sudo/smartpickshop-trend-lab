@@ -16,3 +16,10 @@ button{background:linear-gradient(135deg,var(--sps-brass),#efbd5b);color:#160f07
 table{border:1px solid var(--sps-line)}
 
 /* deployment-sync: SmartPickShop branded Trend Lab 2026-09-26 */
+
+
+/* Mobile containment: keep wide comparison data scrollable inside the card, not across the page. */
+.card{min-width:0}
+@media(max-width:760px){
+  table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
