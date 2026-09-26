@@ -6,18 +6,18 @@ Updated: 2026-09-26 America/Los_Angeles
 SmartPickShop Trend Lab / opportunity research engine.
 
 ## VERIFIED SOURCE STATE
-- Current observed main head is `06ac015fd39906813ac75d13ae1dd2a3971cfa2f`.
+- Current observed product-source head is `60d5ac6e489b9b58f018b39810656d79fc9e8a21`.
 - Development-only E2E bypass requires `TRENDLAB_E2E_BYPASS=1` and a loopback Host header.
 - Hosted deployments fail closed when `TRENDLAB_USER` or `TRENDLAB_PASSWORD` is missing.
-- The E2E test now verifies page access, labeled input targeting, score calculation, saved evidence, persistence after reload, and comparison ordering.
-- SmartPickShop steampunk/neon branding was added at `61b16070847523b402f679b2f267533f27d01f88`.
-- The current head prepares the branded production build.
+- The E2E source verifies page access, labeled input targeting, score calculation, saved evidence, persistence after reload, comparison behavior, and explicit 390×844 mobile-layout behavior.
+- The mobile CSS now prevents the page from overflowing horizontally by containing wide table scrolling inside the comparison card.
+- SmartPickShop steampunk/neon branding is present.
 
 ## VERIFICATION PENDING
-- Fresh current-main E2E result.
-- Private-host source-revision match.
-- Private-host mobile/desktop acceptance and persistence proof after the new E2E/auth changes.
+- Fresh current-main E2E result after the mobile-layout test and containment fix.
+- Private-host source-revision match to the intended current revision.
+- Private-host mobile/desktop acceptance and persistence proof.
 - Production credentials must remain outside source control.
 
 ## Current gate
-Run current-main E2E and private-host acceptance, then record exact deployment/source and browser evidence before calling the branded build ready.
+Run the latest E2E and private-host acceptance, including the explicit mobile case, then record exact deployment/source and browser evidence before calling the build ready.
