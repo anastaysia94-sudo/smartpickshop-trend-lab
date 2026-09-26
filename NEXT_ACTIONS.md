@@ -1,9 +1,10 @@
 # NEXT ACTIONS
 
-Updated: 2026-09-25 23:12 America/Los_Angeles
+Updated: 2026-09-26 America/Los_Angeles
 
 ## Smallest next execution block
-1. Run Playwright E2E against the current development/private-host configuration at commit `0a8949028aa54f968979078a3ca414b97b703cc6`.
-2. Confirm production/private access is controlled by environment credentials and no production secret is committed.
-3. Verify persistence, scoring, source traceability, evidence confidence, and export.
-4. Record concrete browser/test evidence and update STATUS.md.
+1. Run Playwright E2E against current main head `06ac015fd39906813ac75d13ae1dd2a3971cfa2f`.
+2. Verify the private hosted build is serving that source revision and remains credential-protected.
+3. Test scoring, evidence display, saving, refresh persistence, comparison ordering, and mobile/desktop layout.
+4. Record concrete browser/test/deployment evidence.
+5. Only after those checks pass, update STATUS.md from verification-pending to verified.
