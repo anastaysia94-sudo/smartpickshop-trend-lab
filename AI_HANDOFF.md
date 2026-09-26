@@ -1,6 +1,6 @@
 # AI Handoff — SmartPickShop Trend Lab
 
-Updated: 2026-09-25
+Updated: 2026-09-25 23:12 America/Los_Angeles
 
 ## Identity
 
@@ -31,4 +31,4 @@ Evidence-based niche intelligence, opportunity scoring, content planning, and re
 
 ## Smallest next execution block
 
-Implement/verify the first MVP slice with Opportunity persistence, evidence links, scoring, and exportable reporting.
+Run the current E2E/private-host acceptance after commit `0a8949028aa54f968979078a3ca414b97b703cc6`, then verify the MVP persistence/scoring/evidence/export slice.
