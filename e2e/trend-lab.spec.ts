@@ -45,3 +45,21 @@ test("persists evidence-backed niche rows and compares scores", async ({ page })
   await expect(rows.first()).toContainText("QA Local Service Automation");
   await expect(page.getByText("Second QA evidence note.")).toBeVisible();
 });
+
+test("mobile layout keeps primary workflow usable without page overflow", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const response = await page.goto("/");
+  expect(response?.status()).toBe(200);
+
+  await expect(page.getByRole("heading", { name: "Compare niches with clear numbers." })).toBeVisible();
+  await expect(page.getByLabel("Niche or product idea")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Score and save" })).toBeVisible();
+
+  const gridColumns = await page.locator(".grid").first().evaluate((el) => getComputedStyle(el).gridTemplateColumns);
+  expect(gridColumns.trim().split(/\s+/)).toHaveLength(1);
+
+  const noPageOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth <= window.innerWidth + 1
+  );
+  expect(noPageOverflow).toBe(true);
+});
