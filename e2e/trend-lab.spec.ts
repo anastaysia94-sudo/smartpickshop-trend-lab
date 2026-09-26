@@ -19,15 +19,17 @@ test("persists evidence-backed niche rows and compares scores", async ({ page })
   await evidence.fill("QA evidence note: verified buyer-request signal placeholder for browser persistence test.");
   await page.getByRole("button", { name: "Score and save" }).click();
 
-  await expect(page.getByText("QA Local Service Automation", { exact: true })).toBeVisible();
-  await expect(page.getByText(/QA evidence note:/)).toBeVisible();
+  const row = page.locator("tbody tr").filter({ hasText: "QA Local Service Automation" });
+  await expect(row).toBeVisible();
+  await expect(row).toContainText("QA evidence note:");
 
   // 0.35*80 + 0.15*(100-30) + 0.25*70 + 0.25*90 = 78.5 => 79
-  const row = page.locator("tr").filter({ hasText: "QA Local Service Automation" });
   await expect(row).toContainText("79");
 
   await page.reload();
-  await expect(page.getByText("QA Local Service Automation", { exact: true })).toBeVisible();
+  const persistedRow = page.locator("tbody tr").filter({ hasText: "QA Local Service Automation" });
+  await expect(persistedRow).toBeVisible();
+  await expect(persistedRow).toContainText("79");
   await expect(page.getByText(/saved/)).toBeVisible();
 
   await textInput.fill("QA High Competition Idea");
