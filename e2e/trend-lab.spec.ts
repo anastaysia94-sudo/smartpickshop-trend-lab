@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 test("persists evidence-backed niche rows and compares scores", async ({ page }) => {
-  await page.goto("/");
+  const response = await page.goto("/");
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole("heading", { name: "Compare niches with clear numbers." })).toBeVisible();
   await page.evaluate(() => localStorage.removeItem("smartpickshop-trend-lab:v1"));
   await page.reload();
 
