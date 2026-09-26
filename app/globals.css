@@ -14,3 +14,5 @@ input:focus,textarea:focus{outline:1px solid var(--sps-cyan);box-shadow:0 0 18px
 button{background:linear-gradient(135deg,var(--sps-brass),#efbd5b);color:#160f07;border:1px solid #ffd477}
 .score{color:var(--sps-cyan);text-shadow:0 0 18px rgba(57,246,255,.24)}
 table{border:1px solid var(--sps-line)}
+
+/* deployment-sync: SmartPickShop branded Trend Lab 2026-09-26 */
