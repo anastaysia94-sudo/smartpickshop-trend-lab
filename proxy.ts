@@ -8,6 +8,7 @@ function unauthorized() {
 }
 
 export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === "/api/health") return NextResponse.next();
   const expectedUser = process.env.TRENDLAB_USER;
   const expectedPassword = process.env.TRENDLAB_PASSWORD;
 
