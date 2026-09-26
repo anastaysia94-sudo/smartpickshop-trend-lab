@@ -19,7 +19,8 @@ export default defineConfig({
     timeout: 120_000,
     env: {
       TRENDLAB_USER: "qa",
-      TRENDLAB_PASSWORD: "trend-lab-qa"
+      TRENDLAB_PASSWORD: "trend-lab-qa",
+      TRENDLAB_E2E_BYPASS: "1"
     }
   }
 });
