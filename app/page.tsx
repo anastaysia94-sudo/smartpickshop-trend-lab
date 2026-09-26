@@ -35,7 +35,7 @@ export default function Page(){
    <section className="grid">
     <div className="card">
       <h2>01 / Add or edit a niche</h2>
-      <label>Niche or product idea</label><input value={draft.name} onChange={e=>setDraft({...draft,name:e.target.value})}/>
+      <label htmlFor="niche-name">Niche or product idea</label><input id="niche-name" value={draft.name} onChange={e=>setDraft({...draft,name:e.target.value})}/>
       {(["demand","competition","urgency","monetization"] as const).map(k=><div key={k}><label>{k[0].toUpperCase()+k.slice(1)}: {draft[k]}</label><input type="range" min="0" max="100" value={draft[k]} onChange={e=>setDraft({...draft,[k]:+e.target.value})}/></div>)}
       <label>Evidence notes / source links</label><textarea rows={5} value={draft.evidence} onChange={e=>setDraft({...draft,evidence:e.target.value})}/>
       <button onClick={save}>Score and save</button>
