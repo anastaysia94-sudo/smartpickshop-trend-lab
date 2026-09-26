@@ -7,7 +7,7 @@ test("persists evidence-backed niche rows and compares scores", async ({ page })
   await page.evaluate(() => localStorage.removeItem("smartpickshop-trend-lab:v1"));
   await page.reload();
 
-  const textInput = page.locator('input[type="text"]').first();
+  const textInput = page.getByLabel("Niche or product idea");
   const ranges = page.locator('input[type="range"]');
   const evidence = page.locator("textarea");
 
