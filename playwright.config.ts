@@ -1,13 +1,14 @@
 import { defineConfig } from "@playwright/test";
 
-const qaAuth = Buffer.from("qa:trend-lab-qa").toString("base64");
-
 export default defineConfig({
   testDir: "./e2e",
   timeout: 60_000,
   use: {
     baseURL: "http://127.0.0.1:3000",
-    extraHTTPHeaders: { Authorization: `Basic ${qaAuth}` },
+    httpCredentials: {
+      username: "qa",
+      password: "trend-lab-qa"
+    },
     trace: "retain-on-failure",
     screenshot: "only-on-failure"
   },
