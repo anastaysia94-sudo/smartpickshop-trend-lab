@@ -9,7 +9,8 @@ function unauthorized() {
 
 export function proxy(request: NextRequest) {
   if (request.nextUrl.pathname === "/api/health") return NextResponse.next();
-  if (process.env.NODE_ENV === "development" && process.env.TRENDLAB_E2E_BYPASS === "1") return NextResponse.next();
+  const host = (request.headers.get("host") || "").split(":")[0];
+  if (process.env.TRENDLAB_E2E_BYPASS === "1" && ["127.0.0.1", "localhost"].includes(host)) return NextResponse.next();
   const expectedUser = process.env.TRENDLAB_USER;
   const expectedPassword = process.env.TRENDLAB_PASSWORD;
 
