@@ -1,3 +1,24 @@
+import type { Metadata } from "next";
 import "./globals.css";
-export const metadata={title:"SmartPickShop Trend Lab",description:"Evidence-aware niche opportunity comparison"};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
+
+export const metadata: Metadata = {
+  title: "Trend Lab · SmartPickShop",
+  description: "Compare niche opportunities with transparent, editable scoring.",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className="antialiased">{children}</body>
+    </html>
+  );
+}
