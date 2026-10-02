@@ -45,12 +45,13 @@ export default function Page(){
       {sorted[0]?<><div className="score">{scoreOpportunity(sorted[0])}/100</div><h3>{sorted[0].name}</h3><p>Strongest input: <b>{strongestInput(sorted[0])}</b></p><p className="muted">{sorted[0].evidence||"No evidence notes yet."}</p></>:<p>No niches saved.</p>}
     </div>
    </section>
-   <section className="card">
-    <h2>03 / Side by side comparison</h2>
-    <p className="muted">{items.length} saved · highest score first · browser-persistent</p>
-    <table><thead><tr><th>Niche</th><th>Demand</th><th>Competition</th><th>Urgency</th><th>Monetization</th><th>Score</th><th/></tr></thead>
-    <tbody>{sorted.map(x=><tr key={x.id}><td><b>{x.name}</b><br/><span className="muted">{x.evidence||"No evidence yet"}</span></td><td>{x.demand}</td><td>{x.competition}</td><td>{x.urgency}</td><td>{x.monetization}</td><td><b>{scoreOpportunity(x)}</b></td><td><button onClick={()=>setDraft(x)}>Edit</button> <button onClick={()=>setItems(v=>v.filter(i=>i.id!==x.id))}>Remove</button></td></tr>)}</tbody></table>
-    <button onClick={()=>setItems(seed)} style={{marginTop:16}}>Restore sample rows</button>
-   </section>
+  <section className="card">
+  <h2>03 / Side by side comparison</h2>
+  <p className="muted">{items.length} saved · highest score first · browser-persistent</p>
+  <div className="table-wrap">
+    <table>...</table>
+  </div>
+  <button ...>Restore sample rows</button>
+</section>
  </main>
 }
