@@ -1,63 +1,45 @@
-```tsx
-"use client";
-import {useEffect,useMemo,useState} from "react";
-import {OpportunityInput,scoreOpportunity,strongestInput} from "../lib/scoring";
+# File 2 — app/globals.css
 
-const seed:OpportunityInput[]=[
-{id:"lead-briefs",name:"Local business lead briefs",demand:72,competition:61,urgency:78,monetization:68,evidence:"Illustrative estimates. Add real buyer requests and source links before relying on them."},
-{id:"remote-toolkit",name:"Remote job application toolkit",demand:66,competition:73,urgency:74,monetization:55,evidence:"Sample estimate only."},
-{id:"planner",name:"Printable project planner",demand:57,competition:49,urgency:45,monetization:63,evidence:"Sample estimate only."}
-];
+```css
+*{box-sizing:border-box}body{margin:0;background:#0a0d12;color:#f4f7fb;font-family:Inter,system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:32px}h1{font-size:40px;margin-bottom:6px}.sub{color:#aab4c3}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:#121720;border:1px solid #273142;border-radius:18px;padding:20px;margin:18px 0}label{display:block;margin:12px 0 6px}input,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid #39465b;background:#0d1219;color:white}button{padding:11px 14px;border:0;border-radius:10px;font-weight:700;cursor:pointer}table{width:100%;border-collapse:collapse}td,th{padding:10px;border-bottom:1px solid #273142;text-align:left}.score{font-size:42px;font-weight:800}.muted{color:#9aa6b6}@media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:18px}}
 
-function clamp(n:number){return Math.max(0,Math.min(100,Number.isFinite(n)?n:0))}
-export default function Page(){
- const [items,setItems]=useState<OpportunityInput[]>([]);
- const [ready,setReady]=useState(false);
- const [draft,setDraft]=useState<OpportunityInput>({id:"",name:"",demand:50,competition:50,urgency:50,monetization:50,evidence:""});
- useEffect(()=>{
-   try{
-     const raw=localStorage.getItem("smartpickshop-trend-lab:v1");
-     setItems(raw?JSON.parse(raw):seed);
-   }catch{setItems(seed)}
-   setReady(true);
- },[]);
- useEffect(()=>{if(ready)localStorage.setItem("smartpickshop-trend-lab:v1",JSON.stringify(items))},[items,ready]);
- const sorted=useMemo(()=>[...items].sort((a,b)=>scoreOpportunity(b)-scoreOpportunity(a)),[items]);
- function save(){
-   const name=draft.name.trim(); if(!name)return;
-   const item={...draft,id:draft.id||crypto.randomUUID(),name,demand:clamp(+draft.demand),competition:clamp(+draft.competition),urgency:clamp(+draft.urgency),monetization:clamp(+draft.monetization)};
-   setItems(v=>[...v.filter(x=>x.id!==item.id),item]);
-   setDraft({id:"",name:"",demand:50,competition:50,urgency:50,monetization:50,evidence:""});
- }
- return <main>
-   <p className="sub">SMARTPICKSHOP / TREND LAB · private opportunity workspace</p>
-   <h1>Compare niches with clear numbers.</h1>
-   <p className="sub">Formula: demand × 35% + (100 − competition) × 15% + urgency × 25% + monetization × 25%. Evidence notes stay attached to each row. Data persists in this browser.</p>
-   <section className="grid">
-    <div className="card">
-      <h2>01 / Add or edit a niche</h2>
-      <label htmlFor="niche-name">Niche or product idea</label><input id="niche-name" value={draft.name} onChange={e=>setDraft({...draft,name:e.target.value})}/>
-      {(["demand","competition","urgency","monetization"] as const).map(k=><div key={k}><label>{k[0].toUpperCase()+k.slice(1)}: {draft[k]}</label><input type="range" min="0" max="100" value={draft[k]} onChange={e=>setDraft({...draft,[k]:+e.target.value})}/></div>)}
-      <label>Evidence notes / source links</label><textarea rows={5} value={draft.evidence} onChange={e=>setDraft({...draft,evidence:e.target.value})}/>
-      <button onClick={save}>Score and save</button>
-    </div>
-    <div className="card">
-      <h2>02 / Opportunity readout</h2>
-      {sorted[0]?<><div className="score">{scoreOpportunity(sorted[0])}/100</div><h3>{sorted[0].name}</h3><p>Strongest input: <b>{strongestInput(sorted[0])}</b></p><p className="muted">{sorted[0].evidence||"No evidence notes yet."}</p></>:<p>No niches saved.</p>}
-    </div>
-   </section>
-   <section className="card">
-    <h2>03 / Side by side comparison</h2>
-    <p className="muted">{items.length} saved · highest score first · browser-persistent</p>
-    <div className="table-wrap">
-     <table><thead><tr><th>Niche</th><th>Demand</th><th>Competition</th><th>Urgency</th><th>Monetization</th><th>Score</th><th/></tr></thead>
-     <tbody>{sorted.map(x=><tr key={x.id}><td><b>{x.name}</b><br/><span className="muted">{x.evidence||"No evidence yet"}</span></td><td>{x.demand}</td><td>{x.competition}</td><td>{x.urgency}</td><td>{x.monetization}</td><td><b>{scoreOpportunity(x)}</b></td><td><button onClick={()=>setDraft(x)}>Edit</button> <button onClick={()=>setItems(v=>v.filter(i=>i.id!==x.id))}>Remove</button></td></tr>)}</tbody></table>
-    </div>
-    <button onClick={()=>setItems(seed)} style={{marginTop:16}}>Restore sample rows</button>
-   </section>
- </main>
+/* SmartPickShop Holdings • Steampunk Neon 2026 */
+:root{--sps-iron:#080b0f;--sps-coal:#11161c;--sps-brass:#c58a32;--sps-copper:#b65f35;--sps-cyan:#39f6ff;--sps-magenta:#ff3fd1;--sps-ivory:#f4ead7;--sps-line:rgba(197,138,50,.42)}
+body{color:var(--sps-ivory);background:radial-gradient(circle at 85% 0,rgba(57,246,255,.12),transparent 28%),radial-gradient(circle at 12% 12%,rgba(255,63,209,.08),transparent 24%),repeating-linear-gradient(90deg,rgba(197,138,50,.025) 0 1px,transparent 1px 46px),linear-gradient(180deg,var(--sps-iron),#0c1118 55%,#07090c)}
+a{color:var(--sps-cyan)}
+.eyebrow{color:var(--sps-brass)}
+button{box-shadow:0 0 0 1px rgba(197,138,50,.12)}
+
+h1{color:var(--sps-ivory);text-shadow:0 0 18px rgba(57,246,255,.16)}
+.card{background:linear-gradient(145deg,rgba(24,29,34,.97),rgba(8,11,15,.95));border-color:var(--sps-line);box-shadow:inset 0 1px rgba(255,255,255,.035),0 18px 50px #0007}
+input,textarea{background:#090d12;border-color:var(--sps-line);color:var(--sps-ivory)}
+input:focus,textarea:focus{outline:1px solid var(--sps-cyan);box-shadow:0 0 18px rgba(57,246,255,.12)}
+button{background:linear-gradient(135deg,var(--sps-brass),#efbd5b);color:#160f07;border:1px solid #ffd477}
+.score{color:var(--sps-cyan);text-shadow:0 0 18px rgba(57,246,255,.24)}
+table{border:1px solid var(--sps-line)}
+
+/* deployment-sync: SmartPickShop branded Trend Lab 2026-09-26 */
+
+
+/* Mobile containment: keep wide comparison data scrollable inside the card, not across the page. */
+.card{min-width:0}
+.table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:760px){
+  .table-wrap{width:100%}
 }
-```
 
-The only change from your original: the `<table>…</table>` is now wrapped
-in `<div className="table-wrap"> … </div>`.
+
+:root{--brand-neon:#d2a7ff;--background:#12101e;--foreground:#f3eefb;--card:#1c192d;--card-foreground:#f3eefb;--popover:#1c192d;--popover-foreground:#f3eefb;--primary:#d2a7ff;--primary-foreground:#1b1028;--secondary:#30263f;--secondary-foreground:#f3eefb;--muted:#262238;--muted-foreground:#bdb0cd;--accent:#362b49;--accent-foreground:#f3eefb;--border:#655272;--input:#846788;--ring:#d2a7ff;color-scheme:dark}
+body{margin:0;background:#12101e;color:#f3eefb;font-family:'Segoe UI',system-ui,sans-serif}main{background:radial-gradient(ellipse at 85% 0,#372540,transparent 45%),#12101e}
+main > h1{padding:22px 24px;border:1px solid #866558;border-radius:24px 5px 24px 5px;background:linear-gradient(90deg,#231b31f5,#231b31ef 55%,#231b3180),url('/brand/hero.webp') right center/cover}main > h1 h1{font-family:Georgia,serif;letter-spacing:-.03em}
+main section{box-shadow:0 12px 36px #0003;border-radius:4px 20px 4px 20px}
+main input,main textarea{color:#f3eefb}main input:focus,main textarea:focus{border-color:#d2a7ff}main button{min-height:40px}
+@media(max-width:650px){main > h1{padding:20px;background:linear-gradient(#231b31dc,#231b31ef),url('/brand/hero.webp') center/cover}}
+
+.card{background:#1c192d;border-color:#655272}.score{color:#d2a7ff}button{background:#d2a7ff;color:#1b1028}h1{font-family:Georgia,serif}.sub,.muted{color:#c3b6ce}
+
+/* Original product identity • 2026-09-30 • Steampunk Neon */
+:focus-visible{outline:2px solid var(--brand-neon);outline-offset:4px}
+button,input,select,textarea{font:inherit}button,a,input,select,textarea{touch-action:manipulation}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}}
+```
