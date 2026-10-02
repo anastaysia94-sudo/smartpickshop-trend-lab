@@ -1,3 +1,6 @@
+# File 2 — app/globals.css
+
+```css
 *{box-sizing:border-box}body{margin:0;background:#0a0d12;color:#f4f7fb;font-family:Inter,system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:32px}h1{font-size:40px;margin-bottom:6px}.sub{color:#aab4c3}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:#121720;border:1px solid #273142;border-radius:18px;padding:20px;margin:18px 0}label{display:block;margin:12px 0 6px}input,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid #39465b;background:#0d1219;color:white}button{padding:11px 14px;border:0;border-radius:10px;font-weight:700;cursor:pointer}table{width:100%;border-collapse:collapse}td,th{padding:10px;border-bottom:1px solid #273142;text-align:left}.score{font-size:42px;font-weight:800}.muted{color:#9aa6b6}@media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:18px}}
 
 /* SmartPickShop Holdings • Steampunk Neon 2026 */
@@ -20,8 +23,9 @@ table{border:1px solid var(--sps-line)}
 
 /* Mobile containment: keep wide comparison data scrollable inside the card, not across the page. */
 .card{min-width:0}
+.table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 @media(max-width:760px){
-  table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-wrap{width:100%}
 }
 
 
@@ -38,3 +42,4 @@ main input,main textarea{color:#f3eefb}main input:focus,main textarea:focus{bord
 :focus-visible{outline:2px solid var(--brand-neon);outline-offset:4px}
 button,input,select,textarea{font:inherit}button,a,input,select,textarea{touch-action:manipulation}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}}
+```
