@@ -60,7 +60,7 @@ test("mobile layout keeps primary workflow usable without page overflow", async 
 
   // 🟢 SAFELY FIXED ASSERTION: Verifies the table container uses localized fluid overflow rules
   const noPageOverflow = await page.evaluate(
-    () => document.querySelector("main")?.scrollWidth <= window.innerWidth + 1 || document.documentElement.scrollWidth <= window.innerWidth + 1
+    () => document.documentElement.scrollWidth <= window.innerWidth + 1
   );
   expect(noPageOverflow).toBe(true);
 });
