@@ -21,3 +21,10 @@ SmartPickShop Trend Lab / opportunity research engine.
 
 ## Current gate
 Run the latest E2E and private-host acceptance, including the explicit mobile case, then record exact deployment/source and browser evidence before calling the build ready.
+
+## 2026-10-04 PT — repo maintenance notes (The Albino · Pit Keeper)
+- README proposed in PR https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/pull/3 (OPEN; CI test + e2e passed).
+- Minor dependency bump (next 16.3.8, react/react-dom 19.3.0, @playwright/test 1.63.0, lockfile regenerated) proposed in PR https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/pull/4 (OPEN; test, build and Playwright e2e passed on the PR).
+- Major upgrades (eslint 10, TypeScript 7) deliberately held back.
+- Licence: an all-rights-reserved SmartPickShop Holdings `LICENSE` notice is proposed in PR https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/pull/2 (OPEN, not merged). Until it merges the repo still has no licence file.
+- Nothing in this note is merged; PRs await Anastaysia's review. No secrets were read or changed.

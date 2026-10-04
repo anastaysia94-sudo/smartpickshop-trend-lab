@@ -8,3 +8,7 @@ Updated: 2026-09-26 America/Los_Angeles
 3. Verify the private hosted build is serving the intended current source revision and remains credential-protected.
 4. Test scoring, evidence display, saving, refresh persistence, comparison ordering, and desktop/mobile layout on the private host.
 5. Record concrete browser/test/deployment evidence and only then update launch status.
+
+## 2026-10-04 PT — repo maintenance notes (The Albino · Pit Keeper)
+1. Review/merge PRs #3 (README), #4 (deps) and #2 (licence).
+2. Private-host acceptance items above are unchanged.
