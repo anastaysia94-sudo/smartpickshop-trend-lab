@@ -1,6 +1,6 @@
 # AI Handoff — SmartPickShop Trend Lab
 
-Updated: 2026-09-26 America/Los_Angeles
+Updated: 2026-10-09 America/Los_Angeles
 
 ## Identity
 
@@ -24,7 +24,7 @@ Evidence-based niche intelligence, opportunity scoring, content planning, and re
 
 ## Current source checkpoint
 
-Current observed product-source head: `60d5ac6e489b9b58f018b39810656d79fc9e8a21`.
+Audited main head: `9d3ab41b243127389d6210c6596229c523a7d00c` (2026-10-09). The checkpoints below are historical.
 
 Changes since the prior continuity snapshot:
 - E2E bypass logic is explicit and restricted to `TRENDLAB_E2E_BYPASS=1` plus loopback host names.
@@ -39,7 +39,7 @@ The current E2E source covers row creation, scoring math, evidence text, persist
 
 ## Verification boundary
 
-The mobile test and CSS fix are present in source. A current successful E2E/private-host run after these two newest commits was not verified in this continuity refresh.
+Main verify passed (run 37220138372). Browser verify passed at `107cfba9be6a08731e4dd5515035219e1b8f48bc` (run 37220133455); only STATUS/NEXT_ACTIONS differ from audited main. PRs #2–#5 are merged. E2E uses loopback auth bypass; its mobile case covers layout, while reload persistence is tested separately at the default viewport. Private-host source match, auth and mobile persistence remain unverified. `/api/health` is intentionally public and does not report a source revision.
 
 ## Smallest next execution block
 
@@ -48,3 +48,11 @@ The mobile test and CSS fix are present in source. A current successful E2E/priv
 3. Confirm production/private access still fails closed without configured credentials.
 4. Verify scoring, evidence display, saving, refresh persistence, comparison ordering, and 390×844 mobile layout on the private host.
 5. Record concrete browser/deployment evidence before changing launch status.
+
+## 2026-10-09 audit evidence
+
+- Canonical ledger: `1pbhUGktco-Esh7n_HLFzt5KdUJ-BevXM1h0udUjLrrk`, `GitHub audit 2026-10-07`, row 22. Its head/verify and stale-document findings agree with GitHub.
+- Local scoring tests: 2/2 passed. Transpiled proxy with mocked NextResponse: 9/9 source-level cases passed (missing user/password, absent/malformed/wrong/valid auth, non-loopback/loopback bypass, public health). This does not prove deployed Next.js routing or host configuration.
+- Fresh local E2E could not launch: Chromium executable absent; browser download returned an invalid ZIP. No browser assertions ran.
+- No private-host URL, deployment SHA evidence, or host access was established in this audit. Source match and hosted auth/mobile persistence remain pending. Health response has no revision identifier.
+- Persistence is browser/origin-local localStorage, not cross-device synchronization. The existing mobile test does not exercise save/reload.
