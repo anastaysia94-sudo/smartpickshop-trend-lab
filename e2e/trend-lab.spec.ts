@@ -1,4 +1,4 @@
-import { test, expect, request as requestFactory } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 test("persists evidence-backed niche rows and compares scores", async ({ page }) => {
   const response = await page.goto("/");
@@ -67,18 +67,17 @@ test("mobile layout keeps primary workflow usable without page overflow", async 
 
 
 test("denies anonymous and invalid credentials, accepts valid Basic auth locally", async () => {
-  const baseURL = "http://127.0.0.1:3000";
-  const anonymous = await requestFactory.newContext({ baseURL });
-  const incorrect = await requestFactory.newContext({ baseURL, httpCredentials: { username: "qa", password: "not-the-password" } });
-  const authorized = await requestFactory.newContext({ baseURL, httpCredentials: { username: "qa", password: "trend-lab-qa" } });
-  try {
-    expect((await anonymous.get("/")).status()).toBe(401);
-    expect((await incorrect.get("/")).status()).toBe(401);
-    expect((await authorized.get("/")).status()).toBe(200);
-    expect((await anonymous.get("/api/health")).status()).toBe(200);
-  } finally {
-    await anonymous.dispose();
-    await incorrect.dispose();
-    await authorized.dispose();
-  }
+  // Use Node fetch, not Playwright API contexts, so the global httpCredentials
+  // setting cannot silently authorize supposedly anonymous requests.
+  const url = "http://127.0.0.1:3000";
+  const bad = "Basic " + Buffer.from("qa:not-the-password").toString("base64");
+  const good = "Basic " + Buffer.from("qa:trend-lab-qa").toString("base64");
+  const anonymous = await fetch(url + "/", { redirect: "manual" });
+  const invalid = await fetch(url + "/", { headers: { Authorization: bad }, redirect: "manual" });
+  const valid = await fetch(url + "/", { headers: { Authorization: good }, redirect: "manual" });
+  const health = await fetch(url + "/api/health", { redirect: "manual" });
+  expect(anonymous.status).toBe(401);
+  expect(invalid.status).toBe(401);
+  expect(valid.status).toBe(200);
+  expect(health.status).toBe(200);
 });
