@@ -121,3 +121,17 @@ test("exports and imports complete scored JSON backups without corrupting data",
   await expect(page.getByRole("status")).toContainText("inconsistent with its inputs");
   await expect(page.locator("tbody tr").filter({hasText:"Recoverable pilot niche"})).toContainText("79");
 });
+
+
+test("remote workspace fails closed when storage is not configured", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Niche or product idea").fill("Keep local research");
+  await page.getByRole("button", {name:"Score and save"}).click();
+  await page.getByRole("button", {name:"Save to server workspace"}).click();
+  await expect(page.getByRole("status")).toContainText("Server storage not configured");
+  await expect(page.locator("tbody tr").filter({hasText:"Keep local research"})).toBeVisible();
+  page.once("dialog",dialog=>void dialog.accept());
+  await page.getByRole("button", {name:"Load server workspace"}).click();
+  await expect(page.getByRole("status")).toContainText("Server storage not configured");
+  await expect(page.locator("tbody tr").filter({hasText:"Keep local research"})).toBeVisible();
+});

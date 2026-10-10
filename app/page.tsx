@@ -14,6 +14,7 @@ export default function Page(){
  const [items,setItems]=useState<OpportunityInput[]>([]);
  const [ready,setReady]=useState(false);
  const [backupNotice,setBackupNotice]=useState("");
+ const [serverBusy,setServerBusy]=useState(false);
  const [draft,setDraft]=useState<OpportunityInput>({id:"",name:"",demand:50,competition:50,urgency:50,monetization:50,evidence:""});
  useEffect(()=>{
    try{
@@ -43,6 +44,24 @@ export default function Page(){
      setBackupNotice(`Imported ${data.length} niches and their complete evidence notes. Existing browser rows were replaced.`);
    }catch(err){setBackupNotice(err instanceof Error?err.message:"Import failed; existing data was kept.")}
  }
+ async function serverWorkspace(operation:"save"|"load"){
+   if(serverBusy || !ready)return;
+   if(operation==="load"&&!window.confirm("Replace browser data with the saved server workspace? Export a JSON backup first to avoid losing local changes."))return;
+   setServerBusy(true);
+   try{
+     const response=await fetch("/api/workspace",operation==="save"?{
+       method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(createBackup(items))
+     }:{cache:"no-store"});
+     const result=await response.json();
+     if(!response.ok){setBackupNotice(result.error||"Remote storage request failed; local data was kept.");return;}
+     if(operation==="save"){setBackupNotice(`Saved ${result.count} niches on configured server workspace. Also keep a private JSON backup.`);return;}
+     if(!result.exists){setBackupNotice("No remote workspace found. Current browser data was kept.");return;}
+     const restored=parseBackup(result.document);
+     setItems(restored);
+     setBackupNotice(`Loaded ${restored.length} niches and evidence notes from server workspace.`);
+   }catch{setBackupNotice("Server unavailable. Your browser data was not replaced.")}
+   finally{setServerBusy(false);}
+ }
  function save(){
    const name=draft.name.trim(); if(!name)return;
    const item={...draft,id:draft.id||crypto.randomUUID(),name,demand:clamp(+draft.demand),competition:clamp(+draft.competition),urgency:clamp(+draft.urgency),monetization:clamp(+draft.monetization)};
@@ -69,6 +88,10 @@ export default function Page(){
    <section className="card">
     <h2>03 / Back up or restore niche research</h2>
     <p className="muted">This workspace saves to this browser only. Export a private JSON backup to recover the evidence and scores in another browser. Import replaces the current saved rows. Neither action uploads data to a server.</p>
+    <p className="muted">Optional hosted storage (single private workspace): requires owner-configured Supabase and server-only credentials. No automatic sync; explicit save/load avoids silently overwriting local research.</p>
+    <button type="button" disabled={serverBusy||!ready} onClick={()=>void serverWorkspace("save")}>Save to server workspace</button>{" "}
+    <button type="button" disabled={serverBusy||!ready} onClick={()=>void serverWorkspace("load")}>Load server workspace</button>
+    <p className="muted">Without configured storage, the server reports that saving is unavailable; JSON backup remains usable.</p>
     <button type="button" onClick={exportBackup}>Export backup (.json)</button>
     <label htmlFor="backup-file">Import backup (.json)</label>
     <input id="backup-file" type="file" accept=".json,application/json" onChange={e=>{const file=e.currentTarget.files?.[0];void importBackup(file);e.currentTarget.value="";}}/>
