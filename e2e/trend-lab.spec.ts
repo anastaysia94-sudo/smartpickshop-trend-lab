@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { test, expect } from "@playwright/test";
 
 test("persists evidence-backed niche rows and compares scores", async ({ page }) => {
@@ -80,4 +81,43 @@ test("denies anonymous and invalid credentials, accepts valid Basic auth locally
   expect(invalid.status).toBe(401);
   expect(valid.status).toBe(200);
   expect(health.status).toBe(200);
+});
+
+
+test("exports and imports complete scored JSON backups without corrupting data", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => localStorage.removeItem("smartpickshop-trend-lab:v1"));
+  await page.reload();
+  await page.getByLabel("Niche or product idea").fill("Recoverable pilot niche");
+  await page.locator('input[type="range"]').nth(0).fill("80");
+  await page.locator('input[type="range"]').nth(1).fill("30");
+  await page.locator('input[type="range"]').nth(2).fill("70");
+  await page.locator('input[type="range"]').nth(3).fill("90");
+  await page.locator("textarea").fill("Original evidence, URLs and buyer pain remain attached.");
+  await page.getByRole("button", { name: "Score and save" }).click();
+  const downloadPromise=page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export backup (.json)" }).click();
+  const download=await downloadPromise;
+  const json=await readFile(await download.path(), "utf8");
+  const payload=JSON.parse(json);
+  expect(payload.version).toBe(1);
+  expect(payload.format).toBe("smartpickshop-trend-lab:backup");
+  expect(payload.items.find((x:{name:string})=>x.name==="Recoverable pilot niche")?.score).toBe(79);
+  expect(payload.items.find((x:{name:string})=>x.name==="Recoverable pilot niche")?.evidence).toContain("Original evidence");
+  await page.evaluate(() => localStorage.removeItem("smartpickshop-trend-lab:v1"));
+  await page.reload();
+  await expect(page.getByText("Recoverable pilot niche")).toHaveCount(0);
+  await page.getByLabel("Import backup (.json)").setInputFiles({
+    name:"restored.json", mimeType:"application/json", buffer:Buffer.from(json)
+  });
+  await expect(page.locator("tbody tr").filter({hasText:"Recoverable pilot niche"})).toContainText("79");
+  await expect(page.locator("tbody tr").filter({hasText:"Recoverable pilot niche"})).toContainText("Original evidence");
+  await page.reload();
+  await expect(page.locator("tbody tr").filter({hasText:"Recoverable pilot niche"})).toContainText("79");
+  const invalid={...payload,items:payload.items.map((x:{name:string,score:number})=>x.name==="Recoverable pilot niche"?{...x,score:0}:x)};
+  await page.getByLabel("Import backup (.json)").setInputFiles({
+    name:"invalid.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(invalid))
+  });
+  await expect(page.getByRole("status")).toContainText("inconsistent with its inputs");
+  await expect(page.locator("tbody tr").filter({hasText:"Recoverable pilot niche"})).toContainText("79");
 });

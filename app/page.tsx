@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 import {OpportunityInput,scoreOpportunity,strongestInput} from "../lib/scoring";
+import {createBackup, parseBackup, validateItems, MAX_BYTES, STORAGE_KEY} from "../lib/backup";
 
 const seed:OpportunityInput[]=[
 {id:"lead-briefs",name:"Local business lead briefs",demand:72,competition:61,urgency:78,monetization:68,evidence:"Illustrative estimates. Add real buyer requests and source links before relying on them."},
@@ -12,16 +13,36 @@ function clamp(n:number){return Math.max(0,Math.min(100,Number.isFinite(n)?n:0))
 export default function Page(){
  const [items,setItems]=useState<OpportunityInput[]>([]);
  const [ready,setReady]=useState(false);
+ const [backupNotice,setBackupNotice]=useState("");
  const [draft,setDraft]=useState<OpportunityInput>({id:"",name:"",demand:50,competition:50,urgency:50,monetization:50,evidence:""});
  useEffect(()=>{
    try{
-     const raw=localStorage.getItem("smartpickshop-trend-lab:v1");
-     setItems(raw?JSON.parse(raw):seed);
-   }catch{setItems(seed)}
+     const raw=localStorage.getItem(STORAGE_KEY);
+     setItems(raw?validateItems(JSON.parse(raw)):seed);
+   }catch{setItems(seed);setBackupNotice("Saved browser data was invalid; sample data restored. Import a valid backup to recover your work.")}
    setReady(true);
  },[]);
- useEffect(()=>{if(ready)localStorage.setItem("smartpickshop-trend-lab:v1",JSON.stringify(items))},[items,ready]);
+ useEffect(()=>{if(ready){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(items))}catch{setBackupNotice("Browser storage failed; export a backup file to retain this work.")}}},[items,ready]);
  const sorted=useMemo(()=>[...items].sort((a,b)=>scoreOpportunity(b)-scoreOpportunity(a)),[items]);
+ function exportBackup(){
+   try{
+     const json=JSON.stringify(createBackup(items),null,2);
+     const url=URL.createObjectURL(new Blob([json],{type:"application/json"}));
+     const anchor=document.createElement("a");
+     anchor.href=url;anchor.download="trend-lab-backup.json";anchor.click();
+     setTimeout(()=>URL.revokeObjectURL(url),1000);
+     setBackupNotice("Backup downloaded. Store it somewhere private; the file contains your evidence notes.");
+   }catch(err){setBackupNotice(err instanceof Error?err.message:"Could not export backup.")}
+ }
+ async function importBackup(file:File|undefined){
+   if(!file)return;
+   if(file.size>MAX_BYTES){setBackupNotice("Backup exceeds the 2 MB file limit.");return;}
+   try{
+     const data=parseBackup(JSON.parse(await file.text()));
+     setItems(data);
+     setBackupNotice(`Imported ${data.length} niches and their complete evidence notes. Existing browser rows were replaced.`);
+   }catch(err){setBackupNotice(err instanceof Error?err.message:"Import failed; existing data was kept.")}
+ }
  function save(){
    const name=draft.name.trim(); if(!name)return;
    const item={...draft,id:draft.id||crypto.randomUUID(),name,demand:clamp(+draft.demand),competition:clamp(+draft.competition),urgency:clamp(+draft.urgency),monetization:clamp(+draft.monetization)};
@@ -46,7 +67,15 @@ export default function Page(){
     </div>
    </section>
    <section className="card">
-    <h2>03 / Side by side comparison</h2>
+    <h2>03 / Back up or restore niche research</h2>
+    <p className="muted">This workspace saves to this browser only. Export a private JSON backup to recover the evidence and scores in another browser. Import replaces the current saved rows. Neither action uploads data to a server.</p>
+    <button type="button" onClick={exportBackup}>Export backup (.json)</button>
+    <label htmlFor="backup-file">Import backup (.json)</label>
+    <input id="backup-file" type="file" accept=".json,application/json" onChange={e=>{const file=e.currentTarget.files?.[0];void importBackup(file);e.currentTarget.value="";}}/>
+    {backupNotice&&<p role="status" className="muted">{backupNotice}</p>}
+   </section>
+   <section className="card">
+    <h2>04 / Side by side comparison</h2>
     <p className="muted">{items.length} saved / highest score first / browser-persistent</p>
     <div className="table-wrap">
      <table><thead><tr><th>Niche</th><th>Demand</th><th>Competition</th><th>Urgency</th><th>Monetization</th><th>Score</th><th/></tr></thead>

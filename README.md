@@ -23,5 +23,8 @@ Requests to protected hosted routes return HTTP 401 if `TRENDLAB_USER` or `TREND
 - `verify.yml` runs on every push and PR. It installs dependencies, then runs the unit tests and the production build.
 - `browser-verify.yml` runs the browser checks.
 
+## Private backup / restore
+The browser workspace stores niche rows in localStorage; there is **no server-side cross-device persistence**. Export backup (.json) saves a versioned file containing all niche inputs, evidence notes, a reproducible formula and calculated scores; import validates row structure and score consistency, rejects malformed/oversized files, and replaces current browser rows. Store backups privately. This is a mitigation, not hosted durable synchronization or customer acceptance.
+
 ## Project status
 See `STATUS.md`, `NEXT_ACTIONS.md`, `DECISIONS.md`, and `AI_HANDOFF.md`.
