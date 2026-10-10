@@ -23,6 +23,9 @@ Requests to protected hosted routes return HTTP 401 if `TRENDLAB_USER` or `TREND
 - `verify.yml` runs on every push and PR. It installs dependencies, then runs the unit tests and the production build.
 - `browser-verify.yml` runs the browser checks.
 
+## Production auth smoke
+Run `npm run build && node tests/production-smoke.mjs` to verify the built Next.js server denies protected routes without credentials (even if the dev-only bypass is set), rejects bad credentials and accepts valid synthetic CI credentials. This is a production-mode **local runner**, not the actual deployed host or real customer account. CI runs it after the build.
+
 ## Private backup / restore
 The browser workspace stores niche rows in localStorage; there is **no server-side cross-device persistence**. Export backup (.json) saves a versioned file containing all niche inputs, evidence notes, a reproducible formula and calculated scores; import validates row structure and score consistency, rejects malformed/oversized files, and replaces current browser rows. Store backups privately. This is a mitigation, not hosted durable synchronization or customer acceptance.
 
