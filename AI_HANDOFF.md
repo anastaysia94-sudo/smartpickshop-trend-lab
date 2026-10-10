@@ -1,50 +1,29 @@
 # AI Handoff — SmartPickShop Trend Lab
 
-Updated: 2026-09-26 America/Los_Angeles
+[ChatGPT - anastaysia94] Reconciliation checkpoint: 2026-10-09
 
-## Identity
+## Identity and sources
+- Repository: https://github.com/anastaysia94-sudo/smartpickshop-trend-lab
+- README identifies P150 / XW0175. Earlier handoff identifies P020, P021. This is an unresolved identity crosswalk discrepancy, not permission to renumber.
+- Canonical ledger: https://docs.google.com/spreadsheets/d/1pbhUGktco-Esh7n_HLFzt5KdUJ-BevXM1h0udUjLrrk/edit
+- Preserve historical decisions in DECISIONS.md; never commit secrets.
 
-- Canonical repository: `anastaysia94-sudo/smartpickshop-trend-lab`
-- Master project IDs: P020, P021
-- Portfolio index: `anastaysia94-sudo/anastaysia94-sudo` → `CROSS_LLM_BOOTSTRAP.md`
-- Machine-readable register: `portfolio/PROJECTS.json`
-
-## Purpose
-
-Evidence-based niche intelligence, opportunity scoring, content planning, and reporting.
-
-## Continuity rules
-
-- Preserve source traceability and evidence confidence.
-- Distinguish popularity signals from real customer demand and willingness to pay.
-- Production credentials stay outside source control.
-- Historical chat summaries are context, not proof of the current build.
-- Inspect recent commits, CI, deployment state, and handoff files before changing source.
-- Record changed files, verification evidence, blockers, and rollback risk.
-
-## Current source checkpoint
-
-Current observed product-source head: `60d5ac6e489b9b58f018b39810656d79fc9e8a21`.
-
-Changes since the prior continuity snapshot:
-- E2E bypass logic is explicit and restricted to `TRENDLAB_E2E_BYPASS=1` plus loopback host names.
-- Browser tests fail fast on inaccessible pages, target the niche field by label, and scope persistence checks to the saved row.
-- The niche input has an accessibility label association.
-- `61b16070847523b402f679b2f267533f27d01f88` applied the SmartPickShop steampunk/neon visual system.
-- `06ac015fd39906813ac75d13ae1dd2a3971cfa2f` prepared the branded production build.
-- `ff2eacd435e1d61a6d5ed9534e419f53a6ca56ff` added explicit 390×844 mobile-layout coverage.
-- `60d5ac6e489b9b58f018b39810656d79fc9e8a21` contains wide comparison tables inside the card on mobile so the page itself does not horizontally overflow.
-
-The current E2E source covers row creation, scoring math, evidence text, persistence across reload, comparison behavior, and mobile primary-workflow usability/no page overflow.
+## Current verified source evidence
+- Before this documentation-only update, main HEAD was `9d3ab41b243127389d6210c6596229c523a7d00c`; `verify` SUCCESS: https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/actions/runs/37220138372
+- Earlier main browser Playwright SUCCESS at `107cfba9be6a08731e4dd5515035219e1b8f48bc`: https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/actions/runs/37220133455
+- PRs #2, #3 and #4 are MERGED; older statements describing them as OPEN are stale.
+- Separate branch `codex/trend-lab-status-20261009` passed verify at `953c9c2e9046ee54deb2457de24df00358942ece`; do not conflate with main.
 
 ## Verification boundary
+Local/CI Playwright pass is NOT authenticated production/private-host acceptance. Real private-host deployed revision, fail-closed auth, browser persistence and mobile behavior remain OPEN. Never claim sales, launch or acceptance without direct evidence.
 
-The mobile test and CSS fix are present in source. A current successful E2E/private-host run after these two newest commits was not verified in this continuity refresh.
+## Required next steps
+1. Inspect newest HEAD and CI.
+2. Locate deployed private-host URL and compare served revision.
+3. Test auth fail-closed and positive authenticated workflow safely, without exposing secrets.
+4. Test save/reload/compare/mobile on actual host and capture redacted evidence.
+5. Update canonical ledger and handoff pointer only after corroborating evidence.
+6. Preserve JK Electrical P014/X091 strict zero-contact restriction in portfolio work.
 
-## Smallest next execution block
-
-1. Run the current E2E suite on the latest main.
-2. Verify the private hosted build is serving the intended current revision, not merely the earlier `06ac015...` branded build checkpoint.
-3. Confirm production/private access still fails closed without configured credentials.
-4. Verify scoring, evidence display, saving, refresh persistence, comparison ordering, and 390×844 mobile layout on the private host.
-5. Record concrete browser/deployment evidence before changing launch status.
+## Rollback
+This checkpoint changes documentation only. Revert documentation commits if evidence conflicts; preserve historical records.
