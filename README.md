@@ -1,4 +1,4 @@
-# SmartPickShop Trend Lab (P150 / XW0175)
+# SmartPickShop Trend Lab — implementation XW0175:P150 (P020 commercial parent)
 
 SmartPickShop's opportunity research engine. You enter a product or niche idea and its evidence, Trend Lab scores it, saves the evidence, and lets you compare saved ideas side by side.
 
@@ -17,7 +17,7 @@ npm run build      # production build
 ```
 
 ## Configuration
-Hosted deployments refuse to start unless `TRENDLAB_USER` and `TRENDLAB_PASSWORD` are set as environment variables. Never commit them. The development-only E2E bypass needs `TRENDLAB_E2E_BYPASS=1` and a loopback Host header.
+Requests to protected hosted routes return HTTP 401 if `TRENDLAB_USER` or `TRENDLAB_PASSWORD` is absent; the current proxy fails closed rather than preventing the server process from starting. Never commit credentials. The development-only E2E bypass needs `TRENDLAB_E2E_BYPASS=1` and a loopback Host header; never enable it on production hosts.
 
 ## CI
 - `verify.yml` runs on every push and PR. It installs dependencies, then runs the unit tests and the production build.
