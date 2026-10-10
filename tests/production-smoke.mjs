@@ -61,7 +61,8 @@ await runServer("production Basic auth failure/success matrix", { TRENDLAB_USER:
   assert.equal((await request("/", "Basic NOT-BASE64!!!")).status, 401);
   assert.equal((await request("/", token(user, pass))).status, 200);
   assert.equal((await request("/api/health")).status, 200);
-  assert.equal((await request("/api/version")).status, 200);
+  assert.equal((await request("/api/version")).status, 401);
+  assert.equal((await request("/api/version", token(user, pass))).status, 200);
   assert.equal((await request("/api/workspace", token(user, pass))).status, 503);
   const put=await fetch(origin+"/api/workspace",{
     method:"PUT",headers:{Authorization:token(user,pass),"Content-Type":"application/json"},
