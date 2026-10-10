@@ -19,8 +19,13 @@
 - Saved data persistence across hosted reload/session/device as applicable.
 - Production credentials must remain outside source control.
 
-## IDENTITY NEEDS CHECKING
-README says P150 / XW0175; AI_HANDOFF.md says P020, P021. Preserve both source references until canonical workbook mapping is checked. Do not merge or renumber projects.
+## IDENTITY RECONCILED — 2026-10-09 (canonical crosswalk)
+- `XW0019 / P020` = SmartPickShop Trend Lab (commercial parent).
+- `XW0020 / P021` = Niche Intelligence / Trend Analysis PWA (distinct related project).
+- `XW0175 / XW0175:P150` = this smartpickshop-trend-lab implementation repository (source-qualified child of P020).
+- `XW0151 / XW0151:P150` = the separate historical LLM-Use Master Project Ledger, displayed as `P150.Hist` without changing the original source ID.
+- Do not use bare `P150` to merge these projects. Canonical evidence: https://docs.google.com/spreadsheets/d/1pbhUGktco-Esh7n_HLFzt5KdUJ-BevXM1h0udUjLrrk/edit (`Identity Crosswalk`, `Reconciled 2026-10-07`).
+- Identity reconciliation is documentation-only; private-host source SHA, fail-closed authentication, signed-in desktop/mobile and durable complete-report saving remain OPEN.
 
 ## RELEASE GATE
 Do not label production private-host runtime acceptance PASS until timestamped deployment revision, auth tests, browser evidence and persistence checks are recorded. Historical PR-open statements are STALE and superseded by this section.
