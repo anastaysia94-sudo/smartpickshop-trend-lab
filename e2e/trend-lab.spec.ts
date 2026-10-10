@@ -31,7 +31,7 @@ test("persists evidence-backed niche rows and compares scores", async ({ page })
   const persistedRow = page.locator("tbody tr").filter({ hasText: "QA Local Service Automation" });
   await expect(persistedRow).toBeVisible();
   await expect(persistedRow).toContainText("79");
-  await expect(page.getByText(/saved/)).toBeVisible();
+  await expect(page.getByText(/saved \/ highest score first/)).toBeVisible();
 
   await textInput.fill("QA High Competition Idea");
   await ranges.nth(0).fill("80");
