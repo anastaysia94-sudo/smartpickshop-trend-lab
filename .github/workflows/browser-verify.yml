@@ -10,6 +10,7 @@ on:
       - "package.json"
       - "playwright.config.ts"
       - ".github/workflows/browser-verify.yml"
+      - "AI_HANDOFF.md" # run browser checks when runtime acceptance handoff changes
   pull_request:
   workflow_dispatch:
 jobs:
@@ -20,6 +21,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install
+      - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
