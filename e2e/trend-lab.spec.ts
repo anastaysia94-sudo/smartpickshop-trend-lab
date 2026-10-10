@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request as requestFactory } from "@playwright/test";
 
 test("persists evidence-backed niche rows and compares scores", async ({ page }) => {
   const response = await page.goto("/");
@@ -63,4 +63,22 @@ test("mobile layout keeps primary workflow usable without page overflow", async 
     () => document.documentElement.scrollWidth <= window.innerWidth + 1
   );
   expect(noPageOverflow).toBe(true);
+});
+
+
+test("denies anonymous and invalid credentials, accepts valid Basic auth locally", async () => {
+  const baseURL = "http://127.0.0.1:3000";
+  const anonymous = await requestFactory.newContext({ baseURL });
+  const incorrect = await requestFactory.newContext({ baseURL, httpCredentials: { username: "qa", password: "not-the-password" } });
+  const authorized = await requestFactory.newContext({ baseURL, httpCredentials: { username: "qa", password: "trend-lab-qa" } });
+  try {
+    expect((await anonymous.get("/")).status()).toBe(401);
+    expect((await incorrect.get("/")).status()).toBe(401);
+    expect((await authorized.get("/")).status()).toBe(200);
+    expect((await anonymous.get("/api/health")).status()).toBe(200);
+  } finally {
+    await anonymous.dispose();
+    await incorrect.dispose();
+    await authorized.dispose();
+  }
 });
