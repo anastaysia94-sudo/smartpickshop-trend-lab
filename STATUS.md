@@ -1,30 +1,26 @@
-# STATUS
+# STATUS — SmartPickShop Trend Lab
 
-Updated: 2026-09-26 America/Los_Angeles
+[ChatGPT - anastaysia94] Evidence reconciliation: 2026-10-09
 
-## Purpose
-SmartPickShop Trend Lab / opportunity research engine.
+## VERIFIED — repository and workflow evidence
+- Current observed main HEAD before this documentation update: `9d3ab41b243127389d6210c6596229c523a7d00c`.
+- Main `verify` workflow SUCCESS at that SHA: https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/actions/runs/37220138372
+- Earlier main `browser verify` workflow SUCCESS at SHA `107cfba9be6a08731e4dd5515035219e1b8f48bc`: https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/actions/runs/37220133455 ; Playwright step passed.
+- PR #2 (LICENSE) MERGED 2026-10-04 17:20:12Z, merge SHA `dab4bd9662b4569b8d9cba6cc4cbb99ae5dfd5cc`.
+- PR #3 (README) MERGED 2026-10-04 17:20:17Z, merge SHA `77eb65cdd9df568cfe89390dcd5657d0f0735c21`.
+- PR #4 (dependency bump) MERGED 2026-10-04 17:20:23Z, merge SHA `107cfba9be6a08731e4dd5515035219e1b8f48bc`.
+- Latest visible `verify` SUCCESS on branch `codex/trend-lab-status-20261009` at SHA `953c9c2e9046ee54deb2457de24df00358942ece`, NOT main. Do not attribute that branch run to main.
+- Source includes Playwright scoring, persistence, comparison and 390x844 mobile-layout checks. Passing CI proves these scripted checks, not external hosted acceptance.
 
-## VERIFIED SOURCE STATE
-- Current observed product-source head is `60d5ac6e489b9b58f018b39810656d79fc9e8a21`.
-- Development-only E2E bypass requires `TRENDLAB_E2E_BYPASS=1` and a loopback Host header.
-- Hosted deployments fail closed when `TRENDLAB_USER` or `TRENDLAB_PASSWORD` is missing.
-- The E2E source verifies page access, labeled input targeting, score calculation, saved evidence, persistence after reload, comparison behavior, and explicit 390×844 mobile-layout behavior.
-- The mobile CSS now prevents the page from overflowing horizontally by containing wide table scrolling inside the comparison card.
-- SmartPickShop steampunk/neon branding is present.
-
-## VERIFICATION PENDING
-- Fresh current-main E2E result after the mobile-layout test and containment fix.
-- Private-host source-revision match to the intended current revision.
-- Private-host mobile/desktop acceptance and persistence proof.
+## NOT YET VERIFIED — private-host runtime acceptance
+- Authenticated private-host desktop/mobile browser journey on the actual deployed revision.
+- Deployed source SHA matching intended repository revision.
+- Hosted authentication fails closed without credentials and blocks unauthorized requests.
+- Saved data persistence across hosted reload/session/device as applicable.
 - Production credentials must remain outside source control.
 
-## Current gate
-Run the latest E2E and private-host acceptance, including the explicit mobile case, then record exact deployment/source and browser evidence before calling the build ready.
+## IDENTITY NEEDS CHECKING
+README says P150 / XW0175; AI_HANDOFF.md says P020, P021. Preserve both source references until canonical workbook mapping is checked. Do not merge or renumber projects.
 
-## 2026-10-04 PT — repo maintenance notes (The Albino · Pit Keeper)
-- README proposed in PR https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/pull/3 (OPEN; CI test + e2e passed).
-- Minor dependency bump (next 16.3.8, react/react-dom 19.3.0, @playwright/test 1.63.0, lockfile regenerated) proposed in PR https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/pull/4 (OPEN; test, build and Playwright e2e passed on the PR).
-- Major upgrades (eslint 10, TypeScript 7) deliberately held back.
-- Licence: an all-rights-reserved SmartPickShop Holdings `LICENSE` notice is proposed in PR https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/pull/2 (OPEN, not merged). Until it merges the repo still has no licence file.
-- Nothing in this note is merged; PRs await Anastaysia's review. No secrets were read or changed.
+## RELEASE GATE
+Do not label production private-host runtime acceptance PASS until timestamped deployment revision, auth tests, browser evidence and persistence checks are recorded. Historical PR-open statements are STALE and superseded by this section.
