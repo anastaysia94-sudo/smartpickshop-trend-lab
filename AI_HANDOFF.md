@@ -4,7 +4,7 @@
 
 ## Identity and sources
 - Repository: https://github.com/anastaysia94-sudo/smartpickshop-trend-lab
-- README identifies P150 / XW0175. Earlier handoff identifies P020, P021. This is an unresolved identity crosswalk discrepancy, not permission to renumber.
+- Canonical identity is reconciled: `XW0019:P020` SmartPickShop Trend Lab commercial parent; `XW0020:P021` related PWA; `XW0175:P150` source-qualified implementation repository; `XW0151:P150` historical LLM-Use Master Project Ledger displayed `P150.Hist`. Never join bare P150 or alter historical source keys.
 - Canonical ledger: https://docs.google.com/spreadsheets/d/1pbhUGktco-Esh7n_HLFzt5KdUJ-BevXM1h0udUjLrrk/edit
 - Preserve historical decisions in DECISIONS.md; never commit secrets.
 
@@ -18,7 +18,7 @@
 Local/CI Playwright pass is NOT authenticated production/private-host acceptance. Real private-host deployed revision, fail-closed auth, browser persistence and mobile behavior remain OPEN. Never claim sales, launch or acceptance without direct evidence.
 
 ## Required next steps
-1. Inspect newest HEAD and CI.
+1. Re-check newest HEAD and distinguish `verify` unit/build from `browser verify` Playwright. Main `verify` SUCCESS at `41576ea370abb6cb28134b658076841a5f5cad8f`, run https://github.com/anastaysia94-sudo/smartpickshop-trend-lab/actions/runs/38016583929 (2026-10-09 19:20 PT). Browser verification at that exact SHA remains unverified until an independent browser workflow completes.
 2. Locate deployed private-host URL and compare served revision.
 3. Test auth fail-closed and positive authenticated workflow safely, without exposing secrets.
 4. Test save/reload/compare/mobile on actual host and capture redacted evidence.
